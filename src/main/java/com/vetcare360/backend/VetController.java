@@ -8,7 +8,13 @@ import java.util.Map;
 @RequestMapping("/api")
 public class VetController {
 
-    // Endpoint accesible para cualquier usuario autenticado
+    // Endpoint público para verificación de estado (Health Check)
+    @GetMapping("/health")
+    public Map<String, String> healthCheck() {
+        return Map.of("status", "UP");
+    }
+
+    // Endpoint accesible para cualquier usuario autenticado (Admin, Veterinario, Cliente)
     @GetMapping("/productos")
     public List<Map<String, Object>> listarProductos() {
         return List.of(
@@ -18,13 +24,23 @@ public class VetController {
         );
     }
 
-    // Endpoint restringido solo a rol Veterinario o Admin
+    // Endpoint restringido solo a usuarios con rol Veterinario o Admin
     @GetMapping("/veterinario/fichas")
     public Map<String, String> consultarFichaMedica() {
         return Map.of(
             "mascota", "Pelusa",
             "especie", "Felino",
             "diagnostico", "Control sano y vacunas al día"
+        );
+    }
+
+    // Endpoint restringido exclusivamente a rol Admin
+    @GetMapping("/admin/dashboard")
+    public Map<String, String> obtenerMetricasAdmin() {
+        return Map.of(
+            "usuariosTotales", "150",
+            "ingresosMensuales", "$4,500,000",
+            "estadoServidor", "Operacional"
         );
     }
 }

@@ -24,19 +24,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults()) // Permite que Spring use el bean corsConfigurationSource()
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Permite solicitudes preflight de los navegadores (soluciona el error 401 en OPTIONS)
+                // Permite peticiones preflight de navegadores (solución a errores CORS/OPTIONS)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                // Endpoint público para status/health check
-                .requestMatchers("/health").permitAll()
+                // Endpoints públicos
+                .requestMatchers("/api/health", "/health").permitAll()
                 
-                // Endpoints protegidos por roles de Cognito
+                // Restricciones por Rol de Cognito
                 .requestMatchers("/api/admin/**").hasRole("Admin")
                 .requestMatchers("/api/veterinario/**").hasAnyRole("Admin", "Veterinario")
-                .requestMatchers("/api/productos/**").authenticated()
+                .requestMatchers("/api/productos/**", "/api/productos").authenticated()
                 
                 .anyRequest().authenticated()
             )
@@ -48,7 +48,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Configuración global de CORS para permitir peticiones desde React (o API Gateway)
+     * Configuración global de CORS para permitir peticiones desde React y API Gateway
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -63,7 +63,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Extrae los grupos de Cognito ("cognito:groups") y los mapea a roles en Spring Security
+     * Mapea el claim "cognito:groups" a autoridades "ROLE_<GRUPO>" en Spring Security
      */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
