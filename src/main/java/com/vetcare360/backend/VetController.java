@@ -7,7 +7,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class VetController {
 
-    // Endpoint público para verificación de estado (Health Check)
+    // EndpoinT público para verificación de estado (Health Check)
     @GetMapping("/health")
     public Map<String, String> healthCheck() {
         return Map.of("status", "UP");
