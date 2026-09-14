@@ -27,16 +27,16 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Permite peticiones preflight de navegadores (solución a errores CORS/OPTIONS)
+                // Permite peticiones preflight OPTIONS
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
                 // Endpoints públicos
                 .requestMatchers("/api/health", "/health").permitAll()
                 
-                // Restricciones por Rol de Cognito
+                // Restricciones por Rol
                 .requestMatchers("/api/admin/**").hasRole("Admin")
                 .requestMatchers("/api/veterinario/**").hasAnyRole("Admin", "Veterinario")
-                .requestMatchers("/api/productos/**", "/api/productos").authenticated()
+                .requestMatchers("/api/productos/**").authenticated()
                 
                 .anyRequest().authenticated()
             )
@@ -47,9 +47,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * Configuración global de CORS para permitir peticiones desde React y API Gateway
-     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -62,9 +59,6 @@ public class SecurityConfig {
         return source;
     }
 
-    /**
-     * Mapea el claim "cognito:groups" a autoridades "ROLE_<GRUPO>" en Spring Security
-     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
