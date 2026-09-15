@@ -8,7 +8,7 @@
 ## 🛠️ Tecnologías Utilizadas
 * **Lenguaje & Framework:** Java 21 + Spring Boot 3
 * **Persistencia & ORM:** Spring Data JPA + Hibernate + PostgreSQL Driver
-* **Base de Datos:** Supabase PostgreSQL (`products` table)[cite: 7]
+* **Base de Datos:** Supabase PostgreSQL (`products` table)
 * **Seguridad:** Spring Security (OAuth2 Resource Server + JWT Authentication + Method Security)[cite: 1, 4]
 * **Cloud & Hosting:** AWS EC2 + AWS HTTP API Gateway (`ANY /{proxy+}`)
 * **Proveedor de Identidad (IdP):** AWS Cognito User Pool (`us-east-1_Gz8tIv6dd`)[cite: 10]
