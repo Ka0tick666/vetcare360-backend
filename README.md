@@ -1,4 +1,4 @@
-# ⚙️ VetCare 360 - API REST Backend & Seguridad (Spring Boot + AWS + Supabase)
+# ⚙️ VetCare 360 - API REST Backend & Seguridad (Spring Boot + AWS + Supabase).
 
 ## 📌 Contexto General del Proyecto
 **VetCare 360** es un sistema de gestión veterinaria desacoplado. El módulo backend actúa como un **OAuth2 / OIDC Resource Server** encargado de procesar la lógica de negocio, persistir información en PostgreSQL (Supabase), interactuar con la infraestructura AWS (EC2 + API Gateway) y aplicar control de acceso basado en roles (**RBAC**).
