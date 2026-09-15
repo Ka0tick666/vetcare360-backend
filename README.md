@@ -6,7 +6,7 @@
 ---
 
 ## 🛠️ Tecnologías Utilizadas
-* **Lenguaje & Framework:** Java 17 + Spring Boot 3
+* **Lenguaje & Framework:** Java 21 + Spring Boot 3
 * **Persistencia & ORM:** Spring Data JPA + Hibernate + PostgreSQL Driver
 * **Base de Datos:** Supabase PostgreSQL (`products` table)[cite: 7]
 * **Seguridad:** Spring Security (OAuth2 Resource Server + JWT Authentication + Method Security)[cite: 1, 4]
