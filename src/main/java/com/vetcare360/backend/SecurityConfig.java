@@ -1,4 +1,4 @@
-package com.vetcare360.backend;//ola
+package com.vetcare360.backend;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,11 +30,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/health", "/health").permitAll()
+                .requestMatchers("/api/health", "/health", "/prod/api/health", "/**/api/health").permitAll()
                 
-                // Reglas de productos explícitas
+                // Reglas de productos
                 .requestMatchers(HttpMethod.GET, "/api/productos/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAnyRole("Admin", "Veterinario")
+                .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasRole("Admin")
                 
                 .requestMatchers("/api/admin/**").hasRole("Admin")
                 .requestMatchers("/api/veterinario/**").hasAnyRole("Admin", "Veterinario")

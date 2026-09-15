@@ -29,4 +29,11 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(dto));
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_Admin')")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

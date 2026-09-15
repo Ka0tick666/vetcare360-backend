@@ -28,4 +28,8 @@ public class ProductService {
         ProductEntity saved = productRepository.save(entity);
         return new ProductResponseDto(saved.getId(), saved.getName(), saved.getDescription(), saved.getPrice(), saved.getStock());
     }
+
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
 }
