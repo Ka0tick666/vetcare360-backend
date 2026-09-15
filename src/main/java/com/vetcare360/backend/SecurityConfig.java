@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity; // <-- IMPORTANTE
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,24 +20,24 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // <-- AGREGA ESTA ANOTACIÓN PARA QUE HABILITE @PreAuthorize
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) Exception {
         http
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Permite peticiones preflight OPTIONS
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                
-                // Endpoints públicos
                 .requestMatchers("/api/health", "/health").permitAll()
                 
-                // Restricciones por Rol
+                // Reglas de productos explícitas
+                .requestMatchers(HttpMethod.GET, "/api/productos/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAnyRole("Admin", "Veterinario")
+                
                 .requestMatchers("/api/admin/**").hasRole("Admin")
                 .requestMatchers("/api/veterinario/**").hasAnyRole("Admin", "Veterinario")
-                .requestMatchers("/api/productos/**").authenticated()
                 
                 .anyRequest().authenticated()
             )
