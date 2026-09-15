@@ -3,7 +3,7 @@ package com.vetcare360.products.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "products")
 public class ProductEntity {
 
     @Id
