@@ -10,25 +10,19 @@ import software.amazon.awssdk.services.sns.model.PublishRequest;
 
 import java.util.Map;
 
-@RestControllers
+@RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class InformeController {
 
-    @Value("${api.secret}")
+    @Value("${app.api-secret}")
     private String expectedSecret;
 
-    @Value("${aws.sns.topic.arn}")
+    @Value("${aws.sns.topic-arn}")
     private String topicArn;
 
     @Value("${aws.region}")
     private String awsRegion;
-
-    // 1. Endpoint Healthcheck requerido por la arquitectura
-    @GetMapping("/health")
-    public ResponseEntity<Map<String, String>> healthCheck() {
-        return ResponseEntity.ok(Map.of("status", "UP"));
-    }
 
     // 2. Endpoint de Generación de Informes con validación de X-API-SECRET y envío a SNS
     @PostMapping("/informes/generar")
