@@ -1,7 +1,7 @@
-package com.vetcare360.products;
+package com.vetcare360.backend.products;
 
-import com.vetcare360.products.dto.ProductRequestDto;
-import com.vetcare360.products.dto.ProductResponseDto;
+import com.vetcare360.backend.products.dto.ProductRequestDto;
+import com.vetcare360.backend.products.dto.ProductResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

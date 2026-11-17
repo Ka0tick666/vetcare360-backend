@@ -7,7 +7,7 @@ import java.util.Map;
 @RestController
 public class HealthController {
 
-    @GetMapping("/health")
+    @GetMapping({"/api/health", "/health"})
     public Map<String, String> health() {
         return Map.of("status", "UP", "servicio", "VetCare 360 Backend");
     }

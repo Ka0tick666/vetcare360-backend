@@ -30,10 +30,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/health", "/health", "/prod/api/health", "/**/api/health").permitAll()
+                .requestMatchers("/api/health", "/health").permitAll()
                 
                 // Reglas de productos
-                .requestMatchers(HttpMethod.GET, "/api/productos/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/productos", "/api/productos/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAnyRole("Admin", "Veterinario")
                 .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasRole("Admin")
                 
@@ -52,7 +52,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of(System.getenv().getOrDefault("FRONTEND_ORIGIN", "http://localhost:5173")));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         

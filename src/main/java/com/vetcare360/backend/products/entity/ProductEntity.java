@@ -1,4 +1,4 @@
-package com.vetcare360.products.entity;
+package com.vetcare360.backend.products.entity;
 
 import jakarta.persistence.*;
 

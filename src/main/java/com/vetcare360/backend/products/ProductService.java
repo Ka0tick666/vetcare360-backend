@@ -1,8 +1,8 @@
-package com.vetcare360.products;
+package com.vetcare360.backend.products;
 
-import com.vetcare360.products.dto.ProductRequestDto;
-import com.vetcare360.products.dto.ProductResponseDto;
-import com.vetcare360.products.entity.ProductEntity;
+import com.vetcare360.backend.products.dto.ProductRequestDto;
+import com.vetcare360.backend.products.dto.ProductResponseDto;
+import com.vetcare360.backend.products.entity.ProductEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

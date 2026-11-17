@@ -1,4 +1,4 @@
-package com.vetcare360.products.dto;
+package com.vetcare360.backend.products.dto;
 
 public class ProductRequestDto {
     private String name;
