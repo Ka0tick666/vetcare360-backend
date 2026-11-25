@@ -1,3 +1,4 @@
+
 package com.vetcare360.products;
 
 import com.vetcare360.products.dto.ProductRequestDto;
@@ -20,20 +21,35 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('Admin', 'Veterinario', 'Cliente')")
     public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
         return ResponseEntity.ok(productService.findAll());
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_Veterinario') or hasAuthority('ROLE_Admin')")
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(dto));
+    @PreAuthorize("hasAnyRole('Admin', 'Veterinario')")
+    public ResponseEntity<ProductResponseDto> createProduct(
+            @RequestBody ProductRequestDto dto) {
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(productService.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('Admin', 'Veterinario')")
+    public ResponseEntity<ProductResponseDto> updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductRequestDto dto) {
+
+        return ResponseEntity.ok(productService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_Admin')")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+
         productService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 }
