@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = {
     "app.cors.allowed-origins=http://localhost:5173",
     "COGNITO_ISSUER_URI=https://example.invalid",
+    "COGNITO_CLIENT_ID=cliente-prueba",
     "DB_URL=jdbc:postgresql://localhost:5432/test",
     "DB_USERNAME=test",
     "DB_PASSWORD=test",
@@ -107,13 +108,14 @@ class ProductSecurityTests {
                 .content(PRODUCT_JSON);
         }
 
-        // Simular un token Cognito para usuarios autenticados
+        // Simular un token Cognito
         if (!rol.equals("Anonimo")) {
 
             String token = "token-prueba-" + rol;
 
             Jwt jwt = Jwt.withTokenValue(token)
                 .header("alg", "RS256")
+                .issuer("https://example.invalid")
                 .subject("usuario-prueba-" + rol)
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(3600))
@@ -134,11 +136,10 @@ class ProductSecurityTests {
         mockMvc.perform(peticion)
             .andExpect(status().is(estadoEsperado));
 
-        // Verificar que las peticiones rechazadas
-        // no lleguen al servicio de productos
+        // Las peticiones rechazadas no deben
+        // llegar al servicio de productos
         if (estadoEsperado == 401 || estadoEsperado == 403) {
             verifyNoInteractions(productService);
         }
     }
 }
-
