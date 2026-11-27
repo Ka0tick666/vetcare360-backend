@@ -1,4 +1,3 @@
-
 package com.vetcare360.backend;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -108,6 +107,28 @@ public class SecurityConfig {
                     HttpMethod.DELETE,
                     "/api/productos/**"
                 ).hasRole("Admin")
+
+                // ==================================
+                // MODULO DE COMPRAS - EVA 3
+                // ==================================
+
+                // Crear compras: solo clientes
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/api/compras"
+                ).hasRole("Cliente")
+
+                // Consultar historial de compras
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/compras"
+                ).hasRole("Cliente")
+
+                // Consultar detalle y estado de compra
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/compras/*"
+                ).hasRole("Cliente")
 
                 // Generacion de informes
                 .requestMatchers(
@@ -248,7 +269,8 @@ public class SecurityConfig {
             List.of(
                 "Authorization",
                 "Content-Type",
-                "X-API-SECRET"
+                "X-API-SECRET",
+                "Idempotency-Key"
             )
         );
 
